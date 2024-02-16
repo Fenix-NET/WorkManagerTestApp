@@ -7,5 +7,10 @@ namespace WorkManagerWebApi.Controllers
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
+        [HttpPost("assign")]
+        public async Task<ActionResult> AssingTaskAsync()
+        {
+            return StatusCode(501);
+        }
     }
 }
