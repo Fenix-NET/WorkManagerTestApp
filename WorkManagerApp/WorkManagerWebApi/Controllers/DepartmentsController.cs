@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Core.Entities.RequestParametrs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WorkManagerWebApi.Controllers
@@ -8,7 +9,7 @@ namespace WorkManagerWebApi.Controllers
     public class DepartmentsController : ControllerBase
     {
         [HttpPost("assign")]
-        public async Task<ActionResult> AssingTaskAsync()
+        public async Task<ActionResult> AssingTaskAsync([FromBody] DepartmentAssignParams param)
         {
             return StatusCode(501);
         }
