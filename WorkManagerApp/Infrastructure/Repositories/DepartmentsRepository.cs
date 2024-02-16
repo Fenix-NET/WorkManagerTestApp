@@ -8,4 +8,5 @@ public class DepartmentsRepository : RepositoryBase<Department>, IDepartmentsRep
     public DepartmentsRepository(RepositoryContext repositoryContext) : base(repositoryContext)
     {
     }
+
 }
