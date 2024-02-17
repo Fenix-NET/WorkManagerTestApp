@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Entities.Dtos;
 using Core.Interfaces;
 using Core.Interfaces.Repository;
 
@@ -13,5 +14,13 @@ public class EmployeesService : IEmployeesService
     {
         _repository = repository;
         _mapper = mapper;
+    }
+
+    public async Task<IEnumerable<EmloyeeDto>> GetEmployeesAsync(string? department, bool? busy)
+    {
+        var employees = await _repository.Employees.GetEmployeesAsync(department, busy);
+
+        var productsDto = _mapper.Map<IEnumerable<EmloyeeDto>>(employees);
+        return productsDto;
     }
 }

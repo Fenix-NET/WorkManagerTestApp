@@ -1,5 +1,6 @@
-﻿using Core.Entities;
+﻿using Core.Entities.Models;
 using Core.Interfaces.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
@@ -9,8 +10,22 @@ public class EmployeesRepository : RepositoryBase<Employee>, IEmployeesRepositor
     {
     }
 
-    public Task<IEnumerable<Employee>> GetEmployeesAsync()
+    public async Task<IEnumerable<Employee>> GetEmployeesAsync(string? department, bool? busy)
     {
-        throw new NotImplementedException();
+        IQueryable<Employee> employees = FindAll().Include(e => e.Department);
+            
+        
+        if (!String.IsNullOrEmpty(department))
+        {
+            employees = employees.Where(e => e.Department.Name == department);
+        }
+
+        if (busy.HasValue)
+        {
+            employees = employees.Where(e => e.Busy == busy);
+        }
+
+
+        return await employees.ToListAsync();
     }
 }

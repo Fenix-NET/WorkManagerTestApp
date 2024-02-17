@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿using Core.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;

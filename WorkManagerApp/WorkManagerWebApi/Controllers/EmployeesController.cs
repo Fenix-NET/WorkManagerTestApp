@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Core.Interfaces;
 
 namespace WorkManagerWebApi.Controllers
 {
@@ -9,10 +10,25 @@ namespace WorkManagerWebApi.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        [HttpGet("list")]
-        public async Task<ActionResult> GetEmployeesAsync([FromQuery] string department, [FromQuery] bool busy)
+        private readonly IServiceManager _serviceManager;
+
+        public EmployeesController(IServiceManager serviceManager)
         {
-            return StatusCode(501);
+            _serviceManager = serviceManager;
+        }
+
+        [HttpGet("list")]
+        public async Task<ActionResult> GetEmployeesAsync([FromQuery] string? department, [FromQuery] bool? busy)
+        {
+            try
+            {
+                var productsResult = await _serviceManager.EmployeesService.GetEmployeesAsync(department, busy);
+                return Ok(productsResult);
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("isbusy")]

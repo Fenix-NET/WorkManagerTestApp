@@ -4,6 +4,7 @@ using Core.Services;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using AutoMapper;
 
 namespace WorkManagerWebApi
 {
@@ -19,6 +20,7 @@ namespace WorkManagerWebApi
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
             builder.Services.AddScoped<IServiceManager, ServiceManager>();
+            builder.Services.AddAutoMapper(typeof(Program));
 
             var app = builder.Build();
 

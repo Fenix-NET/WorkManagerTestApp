@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿using Core.Entities.Models;
 using Core.Interfaces.Repository;
 
 namespace Infrastructure.Repositories;
