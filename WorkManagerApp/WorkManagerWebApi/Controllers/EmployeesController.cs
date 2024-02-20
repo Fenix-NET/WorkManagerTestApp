@@ -22,8 +22,8 @@ namespace WorkManagerWebApi.Controllers
         {
             try
             {
-                var productsResult = await _serviceManager.EmployeesService.GetEmployeesAsync(department, busy);
-                return Ok(productsResult);
+                var employees = await _serviceManager.EmployeesService.GetEmployeesAsync(department, busy);
+                return Ok(employees);
             }
             catch
             {
@@ -34,7 +34,18 @@ namespace WorkManagerWebApi.Controllers
         [HttpGet("isbusy")]
         public async Task<ActionResult> GetBusyEmployeeAsync([FromQuery, Required] Guid id)
         {
-            return StatusCode(501);
+            try
+            {
+                var employee = await _serviceManager.EmployeesService.GetBusyEmployeeAsync(id);
+                if(employee != null)
+                    return Ok(employee.Busy);
+                else
+                    return NotFound($"Сотрудник с id {id} не найден");
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost("assign")]

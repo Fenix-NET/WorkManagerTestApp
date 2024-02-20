@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Entities.RequestParametrs;
 using Core.Interfaces;
 using Core.Interfaces.Repository;
 
@@ -12,4 +13,11 @@ public class DepartmentsService : IDepartmentsService
     {
         _repository = repository;
     }
+
+    //public async Task AssignTaskAsync(DepartmentAssignParams param)
+    //{
+    //    var employees = await _repository.Employees.
+        
+    //    await _repository.Departments.AssignTaskAsync(param);
+    //}
 }
