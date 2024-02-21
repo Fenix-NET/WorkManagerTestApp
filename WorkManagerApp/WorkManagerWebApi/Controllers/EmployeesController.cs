@@ -37,7 +37,7 @@ namespace WorkManagerWebApi.Controllers
             try
             {
                 var employee = await _serviceManager.EmployeesService.GetBusyEmployeeAsync(id);
-                if(employee != null)
+                if (employee != null)
                     return Ok(employee.Busy);
                 else
                     return NotFound($"Сотрудник с id {id} не найден");
@@ -51,7 +51,29 @@ namespace WorkManagerWebApi.Controllers
         [HttpPost("assign")]
         public async Task<ActionResult> AssignTaskAsync([FromBody] EmployeeAssignParams param)
         {
-            return StatusCode(501);
+            try
+            {
+                var employee = await _serviceManager.EmployeesService.GetEmployeeByIdAsync(param.Id);
+                if (employee == null)
+                {
+                    return NotFound($"Сотрудник с id {param.Id} не найден");
+                }
+
+                if (employee.Busy == true)
+                {
+                    return StatusCode(500, "В выбранное время сотрудник занят");
+                }
+                else
+                {
+                    await _serviceManager.EmployeesService.AssignTaskWithCheck(employee, param.StartAt);
+                    return Ok();
+                }
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
+
         }
     }
 }

@@ -15,8 +15,8 @@ public class EmployeesRepository : RepositoryBase<Employee>, IEmployeesRepositor
     public async Task<IEnumerable<Employee>> GetEmployeesAsync(string? department, bool? busy)
     {
         IQueryable<Employee> employees = FindAll().Include(e => e.Department);
-            
-        
+
+
         if (!String.IsNullOrEmpty(department))
         {
             employees = employees.Where(e => e.Department.Name == department);
@@ -34,7 +34,7 @@ public class EmployeesRepository : RepositoryBase<Employee>, IEmployeesRepositor
     public async Task<Employee> GetEmployeeAsync(Guid Id)
     {
         var employee = await FindByCondition(e => e.Id == Id).FirstOrDefaultAsync();
-        
+
         return employee;
     }
 

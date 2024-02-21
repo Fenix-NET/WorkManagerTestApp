@@ -29,7 +29,7 @@ public class EmployeesService : IEmployeesService
 
     public async Task<Employee> GetBusyEmployeeAsync(Guid Id)
     {
-        
+
         var employee = await _repository.Employees.GetEmployeeAsync(Id);
 
         return employee;
@@ -38,28 +38,28 @@ public class EmployeesService : IEmployeesService
 
     public async Task<Employee> GetUnEmployees(DepartmentAssignParams param)
     {
-        var employees = await _repository.Employees.GetUnEmployees(param);
+        var availableEmployees = await _repository.Employees.GetUnEmployees(param);
 
-        TimeSpan timeDifference = TimeSpan.MaxValue;
         Employee selectEmployee = null;
+        TimeSpan shortestTimeDifference = TimeSpan.MaxValue;
 
-        foreach (var employee in employees)
+        foreach (var employee in availableEmployees)
         {
             string[] workHours = employee.Timespan.Split('-');
             DateTime startTime = DateTime.Parse(workHours[0].Trim());
             DateTime endTime = DateTime.Parse(workHours[1].Trim());
 
-            if (param.StartAt > startTime && param.StartAt < endTime)
+            if (param.StartAt.TimeOfDay >= startTime.TimeOfDay && param.StartAt.TimeOfDay <= endTime.TimeOfDay)
             {
-                TimeSpan tempTimeDifference = endTime - param.StartAt;
+                TimeSpan tempDifference = endTime.TimeOfDay - param.StartAt.TimeOfDay;
 
-                if (tempTimeDifference < timeDifference)
+                if (tempDifference < shortestTimeDifference)
                 {
                     selectEmployee = employee;
-                    timeDifference = tempTimeDifference;
+                    shortestTimeDifference = tempDifference;
                 }
             }
-        } 
+        }
 
         return selectEmployee;
     }
@@ -69,5 +69,28 @@ public class EmployeesService : IEmployeesService
         await _repository.Employees.EmployeeAssign(employee);
 
         await _repository.SaveAsync();
+    }
+
+    public async Task<Employee> GetEmployeeByIdAsync(Guid id)
+    {
+        return await _repository.Employees.GetEmployeeAsync(id);
+    }
+
+    public async Task AssignTaskWithCheck(Employee employee, DateTime dt)
+    {
+        string[] workHours = employee.Timespan.Split('-');
+        DateTime startTime = DateTime.Parse(workHours[0].Trim());
+        DateTime endTime = DateTime.Parse(workHours[1].Trim());
+
+        bool isCheck = dt.TimeOfDay > startTime.TimeOfDay && dt.TimeOfDay < endTime.TimeOfDay;
+
+        if (isCheck)
+        {
+            await AssignTask(employee);
+        }
+        else
+        {
+            throw new Exception();
+        }
     }
 }

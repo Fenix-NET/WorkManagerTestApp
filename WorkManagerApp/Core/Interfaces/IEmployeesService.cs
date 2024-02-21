@@ -10,4 +10,6 @@ public interface IEmployeesService
     public Task<Employee> GetBusyEmployeeAsync(Guid Id);
     public Task<Employee> GetUnEmployees(DepartmentAssignParams param);
     public Task AssignTask(Employee employee);
+    public Task<Employee> GetEmployeeByIdAsync(Guid id);
+    public Task AssignTaskWithCheck(Employee employee, DateTime dt);
 }

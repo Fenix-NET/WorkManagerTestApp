@@ -14,10 +14,5 @@ public class DepartmentsService : IDepartmentsService
         _repository = repository;
     }
 
-    //public async Task AssignTaskAsync(DepartmentAssignParams param)
-    //{
-    //    var employees = await _repository.Employees.
-        
-    //    await _repository.Departments.AssignTaskAsync(param);
-    //}
+    // other logic
 }
