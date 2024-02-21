@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Core.Entities.RequestParametrs;
-using Core.Interfaces;
+﻿using Core.Interfaces;
 using Core.Interfaces.Repository;
 
 namespace Core.Services;

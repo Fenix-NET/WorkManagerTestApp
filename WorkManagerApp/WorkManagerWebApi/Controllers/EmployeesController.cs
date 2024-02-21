@@ -23,6 +23,7 @@ namespace WorkManagerWebApi.Controllers
             try
             {
                 var employees = await _serviceManager.EmployeesService.GetEmployeesAsync(department, busy);
+
                 return Ok(employees);
             }
             catch
@@ -73,7 +74,6 @@ namespace WorkManagerWebApi.Controllers
             {
                 return StatusCode(500, "Internal server error");
             }
-
         }
     }
 }

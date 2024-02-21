@@ -1,8 +1,6 @@
-﻿using Core.Entities.RequestParametrs;
-
-namespace Core.Interfaces;
+﻿namespace Core.Interfaces;
 
 public interface IDepartmentsService
 {
-    //public Task AssignTaskAsync(DepartmentAssignParams param);
+
 }

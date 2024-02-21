@@ -5,6 +5,9 @@ using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using AutoMapper;
+using WorkManagerWebApi.Extensions;
+using Serilog;
+using WorkManagerWebApi.Middleware;
 
 namespace WorkManagerWebApi
 {
@@ -13,8 +16,9 @@ namespace WorkManagerWebApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<RepositoryContext>(opts =>
-                opts.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection")));
+
+            builder.Host.ConfigureLoggerService(builder.Configuration);
+            builder.Services.ConfigureNpgsqlContext(builder.Configuration);
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -29,6 +33,8 @@ namespace WorkManagerWebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.UseHttpsRedirection();
 

@@ -2,6 +2,7 @@
 
 namespace Core.Shared;
 
+// Как вариант можно вынести логику проверки времени в отдельный класс, если она понадобится в других сервисах
 public static class WorkingTimeHelper
 {
     public static Employee SelectEmployee(IEnumerable<Employee> employees, DateTime startAt)

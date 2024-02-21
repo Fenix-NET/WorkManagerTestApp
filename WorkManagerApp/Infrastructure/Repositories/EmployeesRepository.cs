@@ -1,7 +1,6 @@
 ﻿using Core.Entities.Models;
 using Core.Entities.RequestParametrs;
 using Core.Interfaces.Repository;
-using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
@@ -27,7 +26,6 @@ public class EmployeesRepository : RepositoryBase<Employee>, IEmployeesRepositor
             employees = employees.Where(e => e.Busy == busy);
         }
 
-
         return await employees.ToListAsync();
     }
 
@@ -43,7 +41,6 @@ public class EmployeesRepository : RepositoryBase<Employee>, IEmployeesRepositor
         var employees = await FindAll().Where(e => e.Department.Name == param.department)
             .Where(e => e.Busy == false).ToListAsync();
 
-
         return employees;
     }
 
@@ -52,6 +49,5 @@ public class EmployeesRepository : RepositoryBase<Employee>, IEmployeesRepositor
         var employee = await RepositoryContext.Employees.Where(e => e.Id == emp.Id).FirstOrDefaultAsync();
 
         employee.Busy = true;
-
     }
 }
